@@ -152,8 +152,6 @@ PutChar:mov	$0x0e,%ah			# prints CP-437
 	jne	.RetDx				# look xchg ret
 	mov	$'\n',%al
 	jmp	PutChar
-.RetDx:	xchg	%dx,%ax
-	ret
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -241,7 +239,8 @@ Pairlis:test	%di,%di				# Pairlis(x:di,y:si,a:dx):dx
 	jmp	Pairlis
 .ifAtom:test	%di,%di				# test if atom
 	jns	.retT
-.retF:	xor	%ax,%ax				# ax = nil
+.retF:	xor	%dx,%dx
+.RetDx:	xchg    %dx,%ax                         # ax = nil
 	ret
 
 Assoc:	mov	%dx,%si				# Assoc(x:ax,y:dx):ax
